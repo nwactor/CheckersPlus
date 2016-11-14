@@ -57,6 +57,8 @@
         android:textColor="@android:color/white"
         android:background="@android:color/black"
         android:textSize="30sp"
-        android:textStyle="normal|bold|italic" />
+        android:textStyle="normal|bold|italic"
+        android:onClick="testClick"/>
+
 
 </LinearLayout>

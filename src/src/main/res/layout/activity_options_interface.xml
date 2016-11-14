@@ -12,7 +12,7 @@
     android:background="@android:color/black">
 
     <Button
-        android:text="DEEZNUTS"
+        android:text="Back to Main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button6"
