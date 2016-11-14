@@ -13,7 +13,7 @@
 
 
     <Button
-        android:text="Play Against Computer"
+        android:text="@string/play_computer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="151dp"
@@ -35,7 +35,7 @@
         android:textAllCaps="false" />
 
     <Button
-        android:text="Play Against Computer"
+        android:text="@string/play_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button5"
@@ -45,10 +45,11 @@
         android:textColor="@android:color/white"
         android:textStyle="normal|bold|italic"
         android:textSize="30sp"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:onClick="goToPlayFriend"/>
 
     <Button
-        android:text="Options"
+        android:text="@string/go_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button6"
