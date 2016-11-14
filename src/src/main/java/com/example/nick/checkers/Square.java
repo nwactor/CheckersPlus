@@ -33,13 +33,15 @@ public class Square extends ImageView {
         this.yPosition = yPosition;
         this.board = board;
 
+        Drawable d;
+
         //Load the image
         if(color) { //red square
-            Drawable d = getResources().getDrawable(R.drawable.SquareRed);
+            d = getResources().getDrawable(R.drawable.square_red);
         } else { //black square
-            Drawable d = getResources().getDrawable(R.drawable.SquareBlack);
+            d = getResources().getDrawable(R.drawable.square_black);
         }
-        //setImageDrawable(d);
+        setImageDrawable(d);
         this.xSize = this.getWidth();
         this.ySize = this.getHeight();
         //id?

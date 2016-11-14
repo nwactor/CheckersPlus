@@ -33,6 +33,11 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
+    public void goToPlayFriend(View v) {
+        Intent intent = new Intent(this, PlayFriendHome.class);
+        startActivity(intent);
+    }
+
 
 
 }

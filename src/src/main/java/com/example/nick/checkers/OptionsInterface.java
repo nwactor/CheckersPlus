@@ -21,15 +21,11 @@ public class OptionsInterface extends AppCompatActivity {
 
     }
 
-    public void retrurnToMain(View v){
+    public void returnToMain(View v){
         Intent intent = new Intent(this, MainMenu.class);
         startActivity(intent);
 
     }
 
 
-    }
-
-
-
-
+}
