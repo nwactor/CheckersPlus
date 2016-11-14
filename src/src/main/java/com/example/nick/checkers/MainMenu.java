@@ -16,6 +16,7 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        Intent intent = getIntent();
 
         String[] menuItems = {
                 getString(R.string.play_computer),
@@ -23,21 +24,15 @@ public class MainMenu extends AppCompatActivity {
                 getString(R.string.go_options)
         };
 
-        ListView list = (ListView) findViewById(R.id.mainMenuList);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, menuItems);
-        list.setAdapter(adapter);
+
     }
 
-    public void onListItemClick(ListView parent, View v, int position, long id) {
-        if(parent.getChildAt(position).equals(getString(R.string.play_computer))) {
-            Intent intent = new Intent(this, PlayComputerHome.class);
-            startActivity(intent);
-        } else if(parent.getChildAt(position).equals(getString(R.string.play_friend))) {
-            Intent intent = new Intent(this, PlayFriendHome.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(this, OptionsInterface.class);
-            startActivity(intent);
-        }
+    public void testClick(View v){
+        Intent intent = new Intent(this, OptionsInterface.class);
+        startActivity(intent);
+
     }
+
+
+
 }
