@@ -36,7 +36,7 @@ public class PlayFriendHome extends FragmentActivity {
 
             //check win condition
             if(checkWin(gameBoard, currentTurn)) {
-                //TODO: implement end game
+                //TODO: implement end game pop up
                 break;
             } else {
                 //switch turn

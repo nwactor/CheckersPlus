@@ -64,7 +64,11 @@ public class Board {
     }
 
     public Square getSquare(int xPosition, int yPosition) {
-        return this.squares[xPosition - 1][yPosition - 1];
+        if(xPosition < 0 || xPosition > columns || yPosition < 0 || yPosition > rows) {
+            return null;
+        } else {
+            return this.squares[xPosition - 1][yPosition - 1];
+        }
     }
 
     public int p1Remaining() {

@@ -55,7 +55,7 @@ public class BoardTableView extends ViewGroup {
                         redOrBlack = true;
                     }
                 }
-                squares[i][j] = new Square(getContext(), redOrBlack, j + 1, i + 1, board);
+                squares[i][j] = new Square(getContext(), redOrBlack, j, i, board);
                 this.addView(squares[i][j]);
             }
         }
@@ -66,7 +66,7 @@ public class BoardTableView extends ViewGroup {
         return new int[]{rows , columns};
     }
 
-
+    /*
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int count = getChildCount();
@@ -74,9 +74,14 @@ public class BoardTableView extends ViewGroup {
         int width = this.squareSize * this.columns;
         int height = this.squareSize * this.rows;
 
-        
-    }
+        int childState = 0;
 
+
+        setMeasuredDimension(resolveSizeAndState(width, widthMeasureSpec, childState),
+                resolveSizeAndState(height, heightMeasureSpec, childState
+                << MEASURED_HEIGHT_STATE_SHIFT));
+    }
+    */
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
