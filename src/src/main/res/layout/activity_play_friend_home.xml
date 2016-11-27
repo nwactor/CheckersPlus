@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_orange_light"
     tools:context="com.example.nick.checkers.PlayFriendHome">
 
     <Button
@@ -27,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        tools:layout="@layout/board_fragment"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_marginTop="7pt"
+        android:layout_marginLeft="7pt"
+        tools:layout="@layout/board_fragment" />
 </RelativeLayout>
