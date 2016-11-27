@@ -22,9 +22,9 @@ public class OptionsInterface extends AppCompatActivity {
     }
 
     public void returnToMain(View v){
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
-
+        //Intent intent = new Intent(this, MainMenu.class);
+        //startActivity(intent);
+        finish();
     }
 
 

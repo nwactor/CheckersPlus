@@ -12,7 +12,52 @@
     android:background="@android:color/black">
 
     <Button
-        android:text="Back to Main"
+        android:id="@+id/game_settings_button"
+        android:text="@string/go_game_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="151dp"
+        style="@android:style/Widget.Holo.Button"
+        android:elevation="24dp"
+        android:textStyle="normal|bold|italic"
+        android:fontFamily="sans-serif-condensed"
+        android:typeface="sans"
+        android:textSize="36sp"
+        android:lineSpacingExtra="12sp"
+        android:textColor="@android:color/white"
+        android:background="@android:color/black"
+        android:layout_weight="0.13"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/customization_button"
+        android:text="@string/go_customization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.19"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold|italic"
+        android:textSize="30sp"
+        android:textAllCaps="false"
+        />
+
+    <Button
+        android:id="@+id/sound_button"
+        android:text="@string/go_sound_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.22"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textColor="@android:color/white"
+        android:background="@android:color/black"
+        android:textSize="30sp"
+        android:textStyle="normal|bold|italic"
+        />
+
+    <Button
+        android:text="@string/return_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button6"

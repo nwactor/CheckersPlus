@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.example.nick.checkers.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by Nick on 11/10/2016.
  * Class to hold information about all of the squares on the checkerboard.
@@ -16,21 +18,10 @@ public class Board {
     private int rows;
     private int columns;
     private Square[][] squares;
+    private ArrayList<Piece> p1Pieces;
+    private ArrayList<Piece> p2Pieces;
 
     public Board(int rows, int columns) {
-        /*
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.com.example.nick.checkers.Board,
-                0, 0);
-
-        try {
-            mRows = a.getInteger(R.styleable.Board_rows, 16);
-            mColumns = a.getInteger(R.styleable.Board_columns, 16);
-        } finally {
-            a.recycle();
-        }
-        */
         this.rows = rows;
         this.columns = columns;
     }
@@ -47,20 +38,26 @@ public class Board {
         //should throw error if size of square array doesn't match rows & columns
 
         this.squares = squares;
+        this.p1Pieces = new ArrayList<Piece>();
+        this.p2Pieces = new ArrayList<Piece>();
 
-        //place black pieces for game start
+        //place p1 pieces for game start (bottom of board)
         for(int i = 1; i <= 3; i++) {
             for(int j = 1; j <= this.columns; j++) {
                 if(squares[i - 1][j - 1].isBlack()) {
-                    squares[i - 1][j - 1].setOccupant(new Piece(false, false, squares[i - 1][j - 1]));
+                    Piece piece = new Piece(false, false, squares[i - 1][j - 1]);
+                    squares[i - 1][j - 1].setOccupant(piece);
+                    p1Pieces.add(piece);
                 }
             }
         }
-        //place red pieces for game start
+        //place p2 pieces for game start (top of board)
         for(int i = rows; i > rows - 3; i--) {
             for(int j = 1; j <= this.columns; j++) {
                 if(squares[i - 1][j - 1].isBlack()) {
+                    Piece piece = new Piece(true, false, squares[i - 1][j - 1]);
                     squares[i - 1][j - 1].setOccupant(new Piece(true, false, squares[i - 1][j - 1]));
+                    p2Pieces.add(piece);
                 }
             }
         }
@@ -68,6 +65,14 @@ public class Board {
 
     public Square getSquare(int xPosition, int yPosition) {
         return this.squares[xPosition - 1][yPosition - 1];
+    }
+
+    public int p1Remaining() {
+        return this.p1Pieces.size();
+    }
+
+    public int p2Remaining() {
+        return this.p2Pieces.size();
     }
 
 }

@@ -15,6 +15,7 @@ public class Square extends ImageView {
     //private String name; //might not need a name field at all; can be calculated in-method from xPosition and yPosition
     private boolean color; //true = red, false = black
     private Piece occupant;
+    private Drawable display;
     private int xPosition;
     private int yPosition;
     private int xSize;
@@ -33,15 +34,13 @@ public class Square extends ImageView {
         this.yPosition = yPosition;
         this.board = board;
 
-        Drawable d;
-
         //Load the image
         if(color) { //red square
-            d = getResources().getDrawable(R.drawable.square_red);
+            this.display = getResources().getDrawable(R.drawable.square_red);
         } else { //black square
-            d = getResources().getDrawable(R.drawable.square_black);
+            this.display = getResources().getDrawable(R.drawable.square_black);
         }
-        setImageDrawable(d);
+        setImageDrawable(display);
         this.xSize = this.getWidth();
         this.ySize = this.getHeight();
         //id?
@@ -51,8 +50,37 @@ public class Square extends ImageView {
         return this.occupant;
     }
 
+    public boolean hasOccupant() {
+        return !(this.occupant == null);
+    }
+
     public void setOccupant(Piece occupant) {
         this.occupant = occupant;
+
+        //update graphic
+        if(occupant.isP1()) {
+            //there should be a global variable that stores the chosen p1 color
+            if(occupant.isKing()) {
+                this.display = getResources().getDrawable(R.drawable.blue_king);
+                setImageDrawable(this.display);
+            } else {
+                this.display = getResources().getDrawable(R.drawable.blue_piece);
+                setImageDrawable(this.display);
+            }
+        } else { //belongs to player 2
+            if(occupant.isKing()) {
+                this.display = getResources().getDrawable(R.drawable.green_king);
+                setImageDrawable(this.display);
+            } else {
+                this.display = getResources().getDrawable(R.drawable.green_piece);
+                setImageDrawable(this.display);
+            }
+        }
+    }
+
+    public void removeOccupant() {
+        this.occupant = null;
+
     }
 
     public boolean isRed() {

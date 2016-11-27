@@ -3,4 +3,9 @@
     <string name="play_computer">Play Against Computer</string>
     <string name="play_friend">Play Against Friend</string>
     <string name="go_options">Options</string>
+    <string name="go_sound_options">Sound</string>
+    <string name="go_game_settings">Game Settings</string>
+    <string name="go_customization">Customization</string>
+    <string name="WIP">This is a work in progress!</string>
+    <string name="return_page">Go Back</string>
 </resources>

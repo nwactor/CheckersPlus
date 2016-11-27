@@ -2,6 +2,7 @@ package com.example.nick.checkers;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.jar.Attributes;
@@ -11,6 +12,8 @@ import java.util.jar.Attributes;
  */
 public class BoardTableView extends ViewGroup {
     private int squareSize;
+    private int rows;
+    private int columns;
     private Board board;
     private Context context;
 
@@ -31,6 +34,8 @@ public class BoardTableView extends ViewGroup {
 
     public int[] makeBoard(int rows, int columns, int squareSize) {
         this.squareSize = squareSize;
+        this.rows = rows;
+        this.columns = columns;
 
         //int rows = height / squareSize + 1;
         //int columns =  width / squareSize + 1;
@@ -61,6 +66,18 @@ public class BoardTableView extends ViewGroup {
         return new int[]{rows , columns};
     }
 
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int count = getChildCount();
+
+        int width = this.squareSize * this.columns;
+        int height = this.squareSize * this.rows;
+
+        
+    }
+
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int numberOfSquares = getChildCount();
@@ -78,5 +95,8 @@ public class BoardTableView extends ViewGroup {
         }
     }
 
+    public Board getBoard() {
+        return this.board;
+    }
 
 }

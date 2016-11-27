@@ -17,20 +17,11 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         Intent intent = getIntent();
-
-        String[] menuItems = {
-                getString(R.string.play_computer),
-                getString(R.string.play_friend),
-                getString(R.string.go_options)
-        };
-
-
     }
 
-    public void testClick(View v){
+    public void goToOptions(View v){
         Intent intent = new Intent(this, OptionsInterface.class);
         startActivity(intent);
-
     }
 
     public void goToPlayFriend(View v) {
@@ -38,6 +29,9 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    public void goToPlayComputer(View v) {
+        Intent intent = new Intent(this, PlayComputerHome.class);
+        startActivity(intent);
+    }
 
 }

@@ -4,7 +4,7 @@ package com.example.nick.checkers;
  * Created by Nick on 11/10/2016.
  */
 public class Piece {
-    private boolean team; //true = red, false = black
+    private boolean team; //true = player1, false = player2
     private boolean isKing;
     private Square position;
 
@@ -15,20 +15,24 @@ public class Piece {
         this.position = position;
     }
 
-    public boolean isRed() {
+    public boolean isP1() {
         return this.team;
     }
 
-    public boolean isBlack() {
+    public boolean isP2() {
         return !this.team;
     }
 
-    public Square[] getAdjacentFoward() {
+    public boolean isKing() {
+        return this.isKing;
+    }
+
+    public Square[] getAdjacentForward() {
         int boardRows = this.position.getBoard().getRows();
         int boardColumns = this.position.getBoard().getColumns();
         Square[] adjacentForward = new Square[2];
 
-        if(this.isRed()) {
+        if(this.isP1()) { //belongs to player 1
             if(this.position.getYPosition() == 1) { //the checker has reached the end of the board
                 return null;
             } else {
@@ -43,7 +47,7 @@ public class Piece {
                     adjacentForward[1] = this.position.getBoard().getSquare(this.position.getXPosition() - 1 + 1, this.position.getYPosition() - 1 - 1);
                 }
             }
-        } else { //this.isBlack();
+        } else { //this.isP2()
             if(this.position.getYPosition() == boardRows) { //the checker has reached the end of the board
                 return null;
             } else {
