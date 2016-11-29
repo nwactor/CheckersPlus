@@ -44,7 +44,7 @@ public class BoardFragment extends Fragment implements View.OnTouchListener {
     }
 
     public boolean onTouch(View view, MotionEvent event) {
-
+    /*
         int x = (int) event.getX();
         int y = (int) event.getY();
         boolean turn = ((PlayFriendHome) this.getActivity()).currentTurn;
@@ -76,7 +76,7 @@ public class BoardFragment extends Fragment implements View.OnTouchListener {
 
         //if lastTouched != null, if this is an available movement square, call move(lastTouched, this)
             //then set lastTouched to null
-
+*/
         return false;
     }
 }

@@ -1,7 +1,9 @@
 package com.example.nick.checkers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -56,9 +58,11 @@ public class Square extends ImageView {
     public void setOccupant(Piece occupant) {
         this.occupant = occupant;
 
-        if(occupant == null) {
+        if(occupant == null) { System.out.println("A square is having its piece removed:");
+            System.out.println(this.getXPosition() + ", " + this.getYPosition());
             //only black squares will have their occupant set
             this.display = getResources().getDrawable(R.drawable.square_black);
+            setImageDrawable(display);
             return;
         }
 
@@ -108,86 +112,160 @@ public class Square extends ImageView {
         return this.board;
     }
 
+    //What happens when you touch a Square
+    public boolean onTouchEvent(MotionEvent event) {
+
+        boolean turn = ((PlayFriendHome) ((Activity) this.getContext())).currentTurn;
+        Board board = this.getBoard();
+        Square current = this;
+        Square lastTouched = this.board.getLastTouched();
+
+        System.out.println("Current: " + this.getXPosition() + ", " + this.getYPosition());
+        if(lastTouched != null) { System.out.println("LastTouched: " + lastTouched.getXPosition() + ", " + lastTouched.getYPosition());}
+        else { System.out.println("LastTouched: null"); }
+
+        if(lastTouched == null) {
+            //don't do anything if the square has no piece or does not belong to the turn's owner
+            if(!current.hasOccupant() || this.occupant.getTeam() != turn) {
+                return true;
+            } else { //save this square as the last touched one, and highlight
+                this.board.setLastTouched(current);
+                //now should highlight
+            }
+        } else { //attempt to make a move from lastTouched to current
+            if (lastTouched.move(current)) {
+                this.board.setLastTouched(null);
+                //if move is successful, change turn
+                ((PlayFriendHome) this.getContext()).flipTurn();
+            } else {
+                //deselect the piece if another is selected
+                if(current.hasOccupant()) {
+                    if(current.getOccupant().getTeam() == lastTouched.getOccupant().getTeam()) {
+                        this.board.setLastTouched(current);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /*Y-POSITION OF FOUR FOLLOWING METHODS IS COUNTER-INTUITIVE BECAUSE
+    * THE UPPER LEFT HAND CORNER OF THE BOARD IS INDEX 0,0. SO, TO GET
+    * THE SQUARE ABOVE YOU ON THE BOARD, YOU GO ONE Y-INDEX DOWN.*/
+
     public Square getUpLeft() {
-        return board.getSquare(this.xPosition - 1, this.yPosition + 1);
-    }
-
-    public Square getUpRight() {
-        return board.getSquare(this.xPosition + 1, this.yPosition + 1);
-    }
-
-    public Square getDownLeft() {
+        if(this.yPosition == 0 || this.xPosition == 0) {
+            return null;
+        }
         return board.getSquare(this.xPosition - 1, this.yPosition - 1);
     }
 
-    public Square getDownRight() {
+    public Square getUpRight() {
+        if(this.yPosition == 0 || this.xPosition == board.getColumns() - 1) {
+            return null;
+        }
         return board.getSquare(this.xPosition + 1, this.yPosition - 1);
     }
 
+    public Square getDownLeft() {
+        if(this.yPosition == board.getRows() - 1 || this.xPosition == 0) {
+            return null;
+        }
+        return board.getSquare(this.xPosition - 1, this.yPosition + 1);
+    }
+
+    public Square getDownRight() {
+        if(this.yPosition == board.getRows() - 1 || this.xPosition == board.getColumns() - 1) {
+            return null;
+        }
+        return board.getSquare(this.xPosition + 1, this.yPosition + 1);
+    }
+
+
     //returns false if the move is invalid
     public boolean move(Square destination) {
+        System.out.println("Available Moves:");
+        for(Square square : this.getAvailableMoves()) {
+            System.out.println(square.getXPosition() + ", " + square.getYPosition());
+        }
         if(!this.getAvailableMoves().contains(destination)) {
             return false;
         } else {
+            //set up
+            int x = destination.getXPosition();
+            int y = destination.getYPosition();
+            Square start = this;
+
+            //check for kinging
+            if(start.getOccupant().isP1()) {
+                if(y == 0) { start.getOccupant().makeKing(); }
+            } else { //is p2
+                if(y == this.board.getRows() - 1) { start.getOccupant().makeKing(); }
+            }
+
             //move the piece
             destination.setOccupant(this.getOccupant());
             this.setOccupant(null);
 
             //remove taken pieces
-            int x = destination.getXPosition();
-            int y = destination.getYPosition();
-            Square current = this;
-
-            if(this.xPosition > x && this.yPosition > y) { //down left jump
-                while(current.getXPosition() != x && current.getYPosition() != y) {
-                    current = current.getDownLeft();
-                    current.setOccupant(null);
+            if(this.xPosition > x && this.yPosition < y) { //down left jump
+                start = start.getDownLeft();
+                while(start.getXPosition() != x && start.getYPosition() != y) {
+                    start.setOccupant(null);
+                    start = start.getDownLeft();
                 }
-            } else if(this.xPosition < x && this.yPosition > y) { //down right jump
-                while(current.getXPosition() != x && current.getYPosition() != y) {
-                    current = current.getDownRight();
-                    current.setOccupant(null);
+            } else if(this.xPosition < x && this.yPosition < y) { //down right jump
+                start = start.getDownRight();
+                while(start.getXPosition() != x && start.getYPosition() != y) {
+                    start.setOccupant(null);
+                    start = start.getDownRight();
                 }
-            } else if(this.xPosition < x && this.yPosition < y) { //up right jump
-                while (current.getXPosition() != x && current.getYPosition() != y) {
-                    current = current.getUpRight();
-                    current.setOccupant(null);
+            } else if(this.xPosition < x && this.yPosition > y) { //up right jump
+                start = start.getUpRight();
+                while (start.getXPosition() != x && start.getYPosition() != y) {
+                    start.setOccupant(null);
+                    start = start.getUpRight();
                 }
-            } else if(this.xPosition > x && this.yPosition < y) { //up left jump
-                while (current.getXPosition() != x && current.getYPosition() != y) {
-                    current = current.getUpLeft();
-                    current.setOccupant(null);
+            } else if(this.xPosition > x && this.yPosition > y) { //up left jump
+                start = start.getUpLeft();
+                while (start.getXPosition() != x && start.getYPosition() != y) {
+                    start.setOccupant(null);
+                    start = start.getUpLeft();
                 }
             } else {
                 System.out.println("Something is very wrong.");
+                System.out.println("start:" + start.getXPosition() + ", " + start.getYPosition());
+                System.out.println("dest:" + destination.getXPosition() + ", " + destination.getYPosition());
             }
+
             return true;
         }
     }
 
     //method for getting all the available moves for the square's piece
     private HashSet<Square> getAvailableMoves() {
-        if(!this.hasOccupant()) { return null; }
 
+        //this should only ever get called if this has an occupant,
+        //so no need to check for one
         Piece p = this.getOccupant();
 
         HashSet<Square> available = new HashSet<Square>();
 
         if(p.isP1()) {
-            for(Square square : this.getUpwardAvailable(p.getTeam())) {
+            for(Square square : this.getUpwardAvailable(p.getTeam(), 0)) {
                 available.add(square);
             }
             if(p.isKing()) {
-                for(Square square : this.getDownwardAvailable(p.getTeam())) {
+                for(Square square : this.getDownwardAvailable(p.getTeam(), 0)) {
                     available.add(square);
                 }
             }
         } else {
-            for(Square square : this.getDownwardAvailable(p.getTeam())) {
+            for(Square square : this.getDownwardAvailable(p.getTeam(), 0)) {
                 available.add(square);
             }
             if(p.isKing()) {
-                for(Square square : this.getUpwardAvailable(p.getTeam())) {
+                for(Square square : this.getUpwardAvailable(p.getTeam(), 0)) {
                     available.add(square);
                 }
             }
@@ -197,77 +275,166 @@ public class Square extends ImageView {
     }
 
 
-    private LinkedList<Square> getUpwardAvailable(boolean currentTeam) {
+    /*Next two are the helper methods for getAvailable
+     * Bug that doesn't cause any problems: the left and right recursive calls can
+      * add the opposite side to the available list, but this won't add anything that
+      * wouldn't have been read anyway.*/
+
+    //@param side tells the recursive calls which side to go down, so they don't go down both
+    //0 = both, 1 = left, 2 = right
+    private LinkedList<Square> getUpwardAvailable(boolean currentTeam, int side) {
         LinkedList<Square> upwardAvailable = new LinkedList<Square>();
 
         Square upLeft = this.getUpLeft();
         Square upRight = this.getUpRight();
 
-        if(upLeft != null) {
-            if (upLeft.hasOccupant()) {
-                if (upLeft.getOccupant().getTeam() != currentTeam) {
-                    //check for a possible jump to the left
-                    if (upLeft.getUpLeft() != null && !upLeft.getUpLeft().hasOccupant()) {
-                        for(Square square : upLeft.getUpLeft().getUpwardAvailable(currentTeam)) {
-                            upwardAvailable.add(square);
+        if(side == 0 || side == 1) {
+            if (upLeft != null) {
+                if (upLeft.hasOccupant()) {
+                    if (upLeft.getOccupant().getTeam() != currentTeam) {
+                        //recursively check for a possible jump to the left
+                        if (upLeft.getUpLeft() != null && !upLeft.getUpLeft().hasOccupant()) {
+                            //call method on square two steps away
+                            LinkedList<Square> temp = upLeft.getUpLeft().getUpwardAvailable(currentTeam, 1);
+                            if (temp.size() > 0) {
+                                for (Square square : temp) {
+                                    upwardAvailable.add(square);
+                                }
+                            }
+                        } else { //base case: further jumps cannot be made (and the next square has a piece)
+                            //if statement makes sure that this is not the original call
+                            if (!this.hasOccupant()) {
+                                upwardAvailable.add(this);
+                            }
                         }
+                    } else if(!this.hasOccupant()) { //one of the same team is past the jump
+                        upwardAvailable.add(this);
+                    }
+                } else {
+                    if(this.hasOccupant()) { //simplest case: upLeft exists and is empty
+                        upwardAvailable.add(upLeft);
+                    } else { //other base case: this is the last step of a jump (and the next square is empty)
+                        upwardAvailable.add(this);
                     }
                 }
-            } else {
-                upwardAvailable.add(upLeft);
+            } else { //hit edge of board while jumping
+                if (!this.hasOccupant()) {
+                    upwardAvailable.add(this);
+                }
             }
-        }
-        if(upRight != null) {
-            if(upRight.hasOccupant()) {
-                if(upRight.getOccupant().getTeam() != currentTeam) {
-                    //check for a possible jump to the right
-                    if(upRight.getUpRight() != null && !upRight.getUpLeft().hasOccupant()) {
-                        for(Square square : upLeft.getUpRight().getUpwardAvailable(currentTeam)) {
-                            upwardAvailable.add(square);
+        } if(side == 0 || side == 2) {
+            if (upRight != null) {
+                if (upRight.hasOccupant()) {
+                    if (upRight.getOccupant().getTeam() != currentTeam) {
+                        //recursively check for a possible jump to the right
+                        if (upRight.getUpRight() != null && !upRight.getUpRight().hasOccupant()) {
+                            LinkedList<Square> temp = upRight.getUpRight().getUpwardAvailable(currentTeam, 2);
+                            if (temp.size() > 0) {
+                                for (Square square : temp) {
+                                    upwardAvailable.add(square);
+                                }
+                            }
+                        } else { //base case: further jumps cannot be made
+                            //if statement makes sure that this is not the original call
+                            if (!this.hasOccupant()) {
+                                upwardAvailable.add(this);
+                            }
                         }
+                    } else if(!this.hasOccupant()) { //one of the same team is past the jump
+                        upwardAvailable.add(this);
+                    }
+                } else {
+                    if(this.hasOccupant()) { //simplest case: upRight exists and is empty
+                        upwardAvailable.add(upRight);
+                    } else { //other base case: this is the last step of a jump (and the next square is empty)
+                        upwardAvailable.add(this);
                     }
                 }
-            } else {
-                upwardAvailable.add(upRight);
+            } else { //hit edge of board while jumping
+                if (!this.hasOccupant()) {
+                    upwardAvailable.add(this);
+                }
             }
         }
-
         return upwardAvailable;
     }
 
 
-    private LinkedList<Square> getDownwardAvailable(boolean currentTeam) {
+    //@param side tells the recursive calls which side to go down, so they don't go down both
+    //0 = both, 1 = left, 2 = right
+    private LinkedList<Square> getDownwardAvailable(boolean currentTeam, int side) {
         LinkedList<Square> downwardAvailable = new LinkedList<Square>();
 
         Square downLeft = this.getDownLeft();
         Square downRight = this.getDownRight();
 
-        if(downLeft != null) {
-            if (downLeft.hasOccupant()) {
-                if (downLeft.getOccupant().getTeam() != currentTeam) {
-                    //check for a possible jump to the left
-                    if (downLeft.getDownLeft() != null && !downLeft.getDownLeft().hasOccupant()) {
-                        for(Square square : downLeft.getDownLeft().getAvailableMoves()) {
-                            downwardAvailable.add(square);
+        if(side == 0 || side == 1) {
+            if (downLeft != null) {
+                if (downLeft.hasOccupant()) {
+                    if (downLeft.getOccupant().getTeam() != currentTeam) {
+                        //recursively check for a possible jump to the left
+                        if (downLeft.getDownLeft() != null && !downLeft.getDownLeft().hasOccupant()) {
+                            LinkedList<Square> temp = downLeft.getDownLeft().getDownwardAvailable(currentTeam, 1);
+                            if (temp.size() > 0) {
+                                for (Square square : temp) {
+                                    downwardAvailable.add(square);
+                                }
+                            }
+                        } else { //base case: further jumps cannot be made
+                            //if statement makes sure that this is not the original call
+                            if (!this.hasOccupant()) {
+                                downwardAvailable.add(this);
+                            }
                         }
+                    } else if(!this.hasOccupant()) { //one of the same team is past the jump
+                        downwardAvailable.add(this);
+                    }
+                } else {
+                    if(this.hasOccupant()) { //simplest case: downLeft exists and is empty
+                        downwardAvailable.add(downLeft);
+                    } else { //other base case: this is the last step of a jump (and the next square is empty)
+                        downwardAvailable.add(this);
                     }
                 }
-            } else {
-                downwardAvailable.add(downLeft);
+            } else { //hit edge of board while jumping
+                if (!this.hasOccupant()) {
+                    downwardAvailable.add(this);
+                }
             }
         }
-        if(downRight != null) {
-            if(downRight.hasOccupant()) {
-                if(downRight.getOccupant().getTeam() != currentTeam) {
-                    //check for a possible jump to the right
-                    if(downRight.getDownRight() != null && !downRight.getDownLeft().hasOccupant()) {
-                        for(Square square : downLeft.getDownRight().getAvailableMoves()) {
-                            downwardAvailable.add(square);
+
+        if(side == 0 || side == 2) {
+            if (downRight != null) {
+                if (downRight.hasOccupant()) {
+                    if (downRight.getOccupant().getTeam() != currentTeam) {
+                        //recursively check for a possible jump to the right
+                        if (downRight.getDownRight() != null && !downRight.getDownRight().hasOccupant()) {
+                            LinkedList<Square> temp = downRight.getDownRight().getDownwardAvailable(currentTeam, 2);
+                            if (temp.size() > 0) {
+                                for (Square square : temp) {
+                                    downwardAvailable.add(square);
+                                }
+                            }
+                        } else { //base case: further jumps cannot be made
+                            //if statement makes sure that this is not the original call
+                            if (!this.hasOccupant()) {
+                                downwardAvailable.add(this);
+                            }
                         }
+                    } else if(!this.hasOccupant()) { //one of the same team is past the jump
+                        downwardAvailable.add(this);
+                    }
+                } else {
+                    if(this.hasOccupant()) { //simplest case: downRight exists and is empty
+                        downwardAvailable.add(downRight);
+                    } else { //other base case: this is the last step of a jump (and the next square is empty)
+                        downwardAvailable.add(this);
                     }
                 }
-            } else {
-                downwardAvailable.add(downRight);
+            } else { //hit edge of board while jumping
+                if (!this.hasOccupant()) {
+                    downwardAvailable.add(this);
+                }
             }
         }
 

@@ -20,10 +20,12 @@ public class Board {
     private Square[][] squares;
     private ArrayList<Piece> p1Pieces;
     private ArrayList<Piece> p2Pieces;
+    private Square lastTouched;
 
     public Board(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
+        this.lastTouched = null;
     }
 
     public int getRows() {
@@ -42,33 +44,43 @@ public class Board {
         this.p2Pieces = new ArrayList<Piece>();
 
         //place p1 pieces for game start (bottom of board)
+        for(int i = rows; i > rows - 3; i--) {
+            for(int j = 1; j <= this.columns; j++) {
+                if(squares[i - 1][j - 1].isBlack()) {
+                    Piece piece = new Piece(true, false);
+                    squares[i - 1][j - 1].setOccupant(new Piece(true, false));
+                    p2Pieces.add(piece);
+                }
+            }
+        }
+
+        //place p2 pieces for game start (top of board)
         for(int i = 1; i <= 3; i++) {
             for(int j = 1; j <= this.columns; j++) {
                 if(squares[i - 1][j - 1].isBlack()) {
-                    Piece piece = new Piece(false, false, squares[i - 1][j - 1]);
+                    Piece piece = new Piece(false, false);
                     squares[i - 1][j - 1].setOccupant(piece);
                     p1Pieces.add(piece);
                 }
             }
         }
-        //place p2 pieces for game start (top of board)
-        for(int i = rows; i > rows - 3; i--) {
-            for(int j = 1; j <= this.columns; j++) {
-                if(squares[i - 1][j - 1].isBlack()) {
-                    Piece piece = new Piece(true, false, squares[i - 1][j - 1]);
-                    squares[i - 1][j - 1].setOccupant(new Piece(true, false, squares[i - 1][j - 1]));
-                    p2Pieces.add(piece);
-                }
-            }
-        }
+
     }
 
     public Square getSquare(int xPosition, int yPosition) {
         if(xPosition < 0 || xPosition > columns || yPosition < 0 || yPosition > rows) {
             return null;
         } else {
-            return this.squares[xPosition - 1][yPosition - 1];
+            return this.squares[yPosition][xPosition];
         }
+    }
+
+    public Square getLastTouched() {
+        return this.lastTouched;
+    }
+
+    public void setLastTouched(Square square) {
+        this.lastTouched = square;
     }
 
     public int p1Remaining() {

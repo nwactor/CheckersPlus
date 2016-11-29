@@ -8,13 +8,13 @@ import java.util.HashSet;
 public class Piece {
     private boolean team; //true = player1, false = player2
     private boolean isKing;
-    private Square position;
+    //private Square position;
 
     //possibly change name to Checker
-    public Piece(boolean team, boolean isKing, Square position) {
+    public Piece(boolean team, boolean isKing) {
         this.team = team;
         this.isKing = isKing;
-        this.position = position;
+        //this.position = position;
     }
 
     public boolean isP1() {
@@ -27,11 +27,15 @@ public class Piece {
 
     //true = p1, false = p2
     public boolean getTeam() {
-        return this.getTeam();
+        return this.team;
     }
 
     public boolean isKing() {
         return this.isKing;
+    }
+
+    public void makeKing() {
+        this.isKing = true;
     }
 
     //Following methods moved to square class
