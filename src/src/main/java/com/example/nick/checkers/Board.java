@@ -18,8 +18,8 @@ public class Board {
     private int rows;
     private int columns;
     private Square[][] squares;
-    private ArrayList<Piece> p1Pieces;
-    private ArrayList<Piece> p2Pieces;
+    private int p1Pieces;
+    private int p2Pieces;
     private Square lastTouched;
 
     public Board(int rows, int columns) {
@@ -40,8 +40,8 @@ public class Board {
         //should throw error if size of square array doesn't match rows & columns
 
         this.squares = squares;
-        this.p1Pieces = new ArrayList<Piece>();
-        this.p2Pieces = new ArrayList<Piece>();
+        this.p1Pieces = 0;
+        this.p2Pieces = 0;
 
         //place p1 pieces for game start (bottom of board)
         for(int i = rows; i > rows - 3; i--) {
@@ -49,7 +49,7 @@ public class Board {
                 if(squares[i - 1][j - 1].isBlack()) {
                     Piece piece = new Piece(true, false);
                     squares[i - 1][j - 1].setOccupant(new Piece(true, false));
-                    p2Pieces.add(piece);
+                    p1Pieces++;
                 }
             }
         }
@@ -60,7 +60,7 @@ public class Board {
                 if(squares[i - 1][j - 1].isBlack()) {
                     Piece piece = new Piece(false, false);
                     squares[i - 1][j - 1].setOccupant(piece);
-                    p1Pieces.add(piece);
+                    p2Pieces++;
                 }
             }
         }
@@ -75,6 +75,17 @@ public class Board {
         }
     }
 
+    public void resetBoard() {
+        for(Square[] row : this.squares) {
+            for(Square square : row) {
+                if(square.hasOccupant() && square.isBlack()) {
+                    square.setOccupant(null);
+                }
+            }
+        }
+        setBoard(this.squares);
+    }
+
     public Square getLastTouched() {
         return this.lastTouched;
     }
@@ -84,11 +95,19 @@ public class Board {
     }
 
     public int p1Remaining() {
-        return this.p1Pieces.size();
+        return this.p1Pieces;
     }
 
     public int p2Remaining() {
-        return this.p2Pieces.size();
+        return this.p2Pieces;
+    }
+
+    public void decrementP1() {
+        this.p1Pieces--;
+    }
+
+    public void decrementP2() {
+        this.p2Pieces--;
     }
 
 }

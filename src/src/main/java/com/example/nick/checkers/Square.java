@@ -17,7 +17,6 @@ import java.util.LinkedList;
  * Created by Nick on 11/10/2016.
  */
 public class Square extends ImageView {
-    //private String name; //might not need a name field at all; can be calculated in-method from xPosition and yPosition
     private boolean color; //true = red, false = black
     private Piece occupant;
     private Drawable display;
@@ -30,9 +29,8 @@ public class Square extends ImageView {
         super(context);
 
         this.context = context;
-        //this.name = name;
         this.color = color;
-        //this.occupant = occupant; //don't set in constructor, set in board's constructor
+        //this.occupant = occupant; //set in board's constructor
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.board = board;
@@ -89,7 +87,6 @@ public class Square extends ImageView {
 
     public void removeOccupant() {
         this.occupant = null;
-
     }
 
     public boolean isRed() {
@@ -112,41 +109,106 @@ public class Square extends ImageView {
         return this.board;
     }
 
+    //true = computer, false = friend
+    public boolean getMode() {
+        if(this.getContext() instanceof PlayComputerHome) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //What happens when you touch a Square
     public boolean onTouchEvent(MotionEvent event) {
 
-        boolean turn = ((PlayFriendHome) ((Activity) this.getContext())).currentTurn;
-        Board board = this.getBoard();
-        Square current = this;
-        Square lastTouched = this.board.getLastTouched();
-
-        System.out.println("Current: " + this.getXPosition() + ", " + this.getYPosition());
-        if(lastTouched != null) { System.out.println("LastTouched: " + lastTouched.getXPosition() + ", " + lastTouched.getYPosition());}
-        else { System.out.println("LastTouched: null"); }
-
-        if(lastTouched == null) {
-            //don't do anything if the square has no piece or does not belong to the turn's owner
-            if(!current.hasOccupant() || this.occupant.getTeam() != turn) {
+        //reaction for a game against the computer
+        if(this.getMode()) {
+            //do nothing if it's not the player's turn, or the game is over
+            if(((PlayComputerHome) ((Activity) this.getContext())).playerTurn == false
+                    || ((PlayComputerHome) ((Activity) this.getContext())).gameOver) {
                 return true;
-            } else { //save this square as the last touched one, and highlight
-                this.board.setLastTouched(current);
-                //now should highlight
             }
-        } else { //attempt to make a move from lastTouched to current
-            if (lastTouched.move(current)) {
-                this.board.setLastTouched(null);
-                //if move is successful, change turn
-                ((PlayFriendHome) this.getContext()).flipTurn();
+
+            Square current = this;
+            Square lastTouched = this.board.getLastTouched();
+
+            System.out.println("Current: " + this.getXPosition() + ", " + this.getYPosition());
+            if (lastTouched != null) {
+                System.out.println("LastTouched: " + lastTouched.getXPosition() + ", " + lastTouched.getYPosition());
             } else {
-                //deselect the piece if another is selected
-                if(current.hasOccupant()) {
-                    if(current.getOccupant().getTeam() == lastTouched.getOccupant().getTeam()) {
-                        this.board.setLastTouched(current);
+                System.out.println("LastTouched: null");
+            }
+
+            if (lastTouched == null) {
+                //don't do anything if the square has no piece or does not belong to the player
+                if (!current.hasOccupant() || !this.occupant.getTeam()) {
+                    return true;
+                } else { //save this square as the last touched one, and highlight
+                    this.board.setLastTouched(current);
+                    //now should highlight
+                }
+            } else { //attempt to make a move from lastTouched to current
+                if (lastTouched.move(current)) {
+                    this.board.setLastTouched(null);
+                    //if move is successful, change turn
+                    ((PlayComputerHome) this.getContext()).flipTurn();
+                } else {
+                    //deselect the piece if another is selected
+                    if (current.hasOccupant()) {
+                        if (current.getOccupant().getTeam() == lastTouched.getOccupant().getTeam()) {
+                            this.board.setLastTouched(current);
+                        }
                     }
                 }
             }
+            return true;
         }
-        return true;
+
+        //reaction for a game against a friend
+        else {
+            //do nothing if game over
+            if (((PlayFriendHome) ((Activity) this.getContext())).gameOver) {
+                return true;
+            }
+
+            boolean turn = ((PlayFriendHome) ((Activity) this.getContext())).currentTurn;
+            Square current = this;
+            Square lastTouched = this.board.getLastTouched();
+
+            System.out.println("Current: " + this.getXPosition() + ", " + this.getYPosition());
+            if (lastTouched != null) {
+                System.out.println("LastTouched: " + lastTouched.getXPosition() + ", " + lastTouched.getYPosition());
+            } else {
+                System.out.println("LastTouched: null");
+            }
+
+            if (lastTouched == null) {
+                //don't do anything if the square has no piece or does not belong to the turn's owner
+                if (!current.hasOccupant() || this.occupant.getTeam() != turn) {
+                    return true;
+                } else { //save this square as the last touched one, and highlight
+                    this.board.setLastTouched(current);
+                    //now should highlight
+                }
+            } else { //attempt to make a move from lastTouched to current
+                if (lastTouched.move(current)) {
+                    //if move is successful check for game over then change turn
+                    this.board.setLastTouched(null);
+                    ((PlayFriendHome) this.getContext()).checkWin(board);
+                    ((PlayFriendHome) this.getContext()).flipTurn();
+                    System.out.println(this.board.p2Remaining());
+                } else {
+                    //deselect the piece if another is selected
+                    if (current.hasOccupant()) {
+                        if (current.getOccupant().getTeam() == lastTouched.getOccupant().getTeam()) {
+                            this.board.setLastTouched(current);
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 
     /*Y-POSITION OF FOUR FOLLOWING METHODS IS COUNTER-INTUITIVE BECAUSE
@@ -211,25 +273,41 @@ public class Square extends ImageView {
             if(this.xPosition > x && this.yPosition < y) { //down left jump
                 start = start.getDownLeft();
                 while(start.getXPosition() != x && start.getYPosition() != y) {
-                    start.setOccupant(null);
+                    if(start.hasOccupant()) {
+                        boolean team = start.getOccupant().getTeam();
+                        start.setOccupant(null);
+                        if(team) { this.board.decrementP1(); } else { this.board.decrementP2(); }
+                    }
                     start = start.getDownLeft();
                 }
             } else if(this.xPosition < x && this.yPosition < y) { //down right jump
                 start = start.getDownRight();
                 while(start.getXPosition() != x && start.getYPosition() != y) {
-                    start.setOccupant(null);
+                    if(start.hasOccupant()) {
+                        boolean team = start.getOccupant().getTeam();
+                        start.setOccupant(null);
+                        if(team) { this.board.decrementP1(); } else { this.board.decrementP2(); }
+                    }
                     start = start.getDownRight();
                 }
             } else if(this.xPosition < x && this.yPosition > y) { //up right jump
                 start = start.getUpRight();
                 while (start.getXPosition() != x && start.getYPosition() != y) {
-                    start.setOccupant(null);
+                    if(start.hasOccupant()) {
+                        boolean team = start.getOccupant().getTeam();
+                        start.setOccupant(null);
+                        if(team) { this.board.decrementP1(); } else { this.board.decrementP2(); }
+                    }
                     start = start.getUpRight();
                 }
             } else if(this.xPosition > x && this.yPosition > y) { //up left jump
                 start = start.getUpLeft();
                 while (start.getXPosition() != x && start.getYPosition() != y) {
-                    start.setOccupant(null);
+                    if(start.hasOccupant()) {
+                        boolean team = start.getOccupant().getTeam();
+                        start.setOccupant(null);
+                        if(team) { this.board.decrementP1(); } else { this.board.decrementP2(); }
+                    }
                     start = start.getUpLeft();
                 }
             } else {

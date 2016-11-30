@@ -14,7 +14,6 @@ import android.view.ViewGroup;
  */
 public class BoardFragment extends Fragment implements View.OnTouchListener {
     private BoardTableView boardView;
-    private Square lastTouched = null;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         View view = inflater.inflate(R.layout.board_fragment, container, true);
@@ -43,6 +42,7 @@ public class BoardFragment extends Fragment implements View.OnTouchListener {
         return this.boardView;
     }
 
+    //no need, child views handle onTouch by themselves
     public boolean onTouch(View view, MotionEvent event) {
     /*
         int x = (int) event.getX();

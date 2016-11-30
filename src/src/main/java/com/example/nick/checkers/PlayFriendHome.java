@@ -1,72 +1,29 @@
 package com.example.nick.checkers;
 
+import android.app.AlertDialog;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 public class PlayFriendHome extends FragmentActivity {
-    protected boolean friendGameOver;
+    protected boolean gameOver;
     protected boolean currentTurn;
     private BoardFragment game;
+    private boolean winner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_friend_home);
         this.game = (BoardFragment) getFragmentManager().findFragmentById(R.id.checkerBoard);
+        gameOver = false;
         currentTurn = true; //true = player1, false = player2
-        //playGame();
-    }
-
-    //Might not need this method at all
-    public void playGame() {
-        //Set up for game
-        friendGameOver = false;
-        Board gameBoard = game.getBoardView().getBoard();
-
-
-        //currentTurn needs to switch whenever there's a successful move
-
-
-        //main game loop!
-        while(!friendGameOver) {
-            //move
-            //waiting for onTouch
-
-
-            //check win condition
-            if(checkWin(gameBoard, currentTurn)) {
-                //TODO: implement end game pop up
-                break;
-            } else {
-                //switch turn handled by Square.java
-                //currentTurn = !currentTurn;
-            }
-        }
-
-
-    }
-
-    private boolean checkWin(Board board, boolean currentTurn) {
-        if(currentTurn) { //pl can only win on their turn
-            if(board.p2Remaining() == 0) {
-                return true;
-            }
-        } else { //p2 can only win on their turn
-            if(board.p1Remaining() == 0) {
-                return true;
-            }
-        }
-
-        //TODO: implement the win if opponent has no moves rule
-        return false;
-    }
-
-    public boolean askForPlayAgain() {
-        return false;
     }
 
     public void flipTurn() {
@@ -79,5 +36,79 @@ public class PlayFriendHome extends FragmentActivity {
         }
     }
 
+    public void checkWin(Board board) {
+        if(board.p2Remaining() == 0) {
+            this.winner = this.currentTurn;
+            showWinBanner();
+            this.gameOver = true;
+        } else if(board.p1Remaining() == 0) {
+            this.winner = this.currentTurn;
+            showWinBanner();
+            this.gameOver = true;
+        }
+
+        //TODO: implement the win if opponent has no moves rule
+    }
+
+    public void showWinBanner() {
+        TextView banner = (TextView) findViewById(R.id.victoryBanner);
+        if(this.winner) { //is player1
+            banner.setText(R.string.p1_victory);
+        } else {
+            banner.setText(R.string.p2_victory);
+        }
+        banner.setVisibility(View.VISIBLE);
+    }
+
+    public void hideWinBanner() {
+        TextView banner = (TextView) findViewById(R.id.victoryBanner);
+        banner.setVisibility(View.INVISIBLE);
+    }
+
+    public void resetGame() {
+        //reset banner
+        hideWinBanner();
+
+        //reset board
+        game.getBoardView().getBoard().resetBoard();
+
+        //reset turn
+        currentTurn = true; //true = player1, false = player2
+        TextView turnInfo = (TextView) findViewById(R.id.currentTurnFriend);
+        turnInfo.setText("Player 1's Turn");
+
+        //start game
+        this.gameOver = false;
+    }
+
+    public void onNewGameClick(View v) {
+        new AlertDialog.Builder(this)
+                .setTitle("New Game")
+                .setMessage("Are you sure you want to start a new game?")
+                .setIcon(R.drawable.app_icon)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        PlayFriendHome.this.resetGame();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    public void onResignClick(View v) {
+        new AlertDialog.Builder(this)
+                .setTitle("Resign")
+                .setMessage("Do you really want to resign?")
+                .setIcon(R.drawable.app_icon)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        PlayFriendHome.this.winner = !PlayFriendHome.this.currentTurn;
+                        PlayFriendHome.this.showWinBanner();
+                        PlayFriendHome.this.gameOver = true;
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
     public void returnToMain(View v){ finish(); }
+
 }

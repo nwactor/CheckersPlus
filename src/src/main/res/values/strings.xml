@@ -7,5 +7,8 @@
     <string name="go_game_settings">Game Settings</string>
     <string name="go_customization">Customization</string>
     <string name="WIP">This is a work in progress!</string>
-    <string name="return_page">Go Back</string>
+    <string name="return_page">Return</string>
+    <string name="player_victory">You Win!!!</string>
+    <string name="p1_victory">Player 1 Wins!!!</string>
+    <string name="p2_victory">Player 2 Wins!!!</string>
 </resources>
