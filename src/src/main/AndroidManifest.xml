@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".MainMenu">
-           
+
         </activity>
         <activity android:name=".OptionsInterface" />
         <activity android:name=".PlayFriendHome" />
@@ -18,7 +18,7 @@
             android:name=".SplashScreen"
             android:screenOrientation="portrait"
             android:noHistory="true" >
-             <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />

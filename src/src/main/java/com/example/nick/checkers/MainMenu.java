@@ -1,5 +1,6 @@
 package com.example.nick.checkers;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 public class MainMenu extends AppCompatActivity {
-
+  static Activity act = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +26,13 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void goToPlayFriend(View v) {
-        Intent intent = new Intent(this, PlayFriendHome.class);
-        startActivity(intent);
+
+        if(act !=null){
+
+        }else{
+            Intent intent = new Intent(this, PlayFriendHome.class);
+            startActivity(intent);
+        }
     }
 
     public void goToPlayComputer(View v) {
