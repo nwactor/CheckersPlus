@@ -13,12 +13,6 @@ public class OptionsInterface extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options_interface);
-        Intent intent = getIntent();
-        String message = ("DeezNuts");
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message);
-
     }
 
     public void returnToMain(View v){
@@ -26,6 +20,5 @@ public class OptionsInterface extends AppCompatActivity {
         //startActivity(intent);
         finish();
     }
-
 
 }
