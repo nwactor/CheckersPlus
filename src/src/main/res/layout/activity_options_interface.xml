@@ -18,6 +18,7 @@
 
     <RadioGroup
         android:id="@+id/difficultySetting"
+        android:onClick="onDifficultyClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -26,7 +27,6 @@
         <RadioButton
             android:id="@+id/easyRadio"
             android:text="Easy"
-            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -62,6 +62,7 @@
 
     <RadioGroup
         android:id="@+id/p1ColorGroup"
+        android:onClick="onColorClickP1"
         android:layout_below="@+id/p1ColorLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -69,7 +70,6 @@
         <RadioButton
             android:id="@+id/p1Blue"
             android:text="Blue"
-            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -135,7 +135,6 @@
         <RadioButton
             android:id="@+id/p2Green"
             android:text="Green"
-            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

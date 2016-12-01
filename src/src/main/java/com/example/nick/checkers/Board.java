@@ -85,6 +85,7 @@ public class Board {
             }
         }
         setBoard(this.squares);
+        this.lastTouched = null;
     }
 
     public Square getLastTouched() {

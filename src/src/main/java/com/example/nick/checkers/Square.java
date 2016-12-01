@@ -68,18 +68,18 @@ public class Square extends ImageView {
         if(occupant.isP1()) {
             //there should be a global variable that stores the chosen p1 color
             if(occupant.isKing()) {
-                this.display = getResources().getDrawable(R.drawable.blue_king);
+                this.display = ((CheckersApp) this.getContext().getApplicationContext()).getP1King();
                 setImageDrawable(this.display);
             } else {
-                this.display = getResources().getDrawable(R.drawable.blue_piece);
+                this.display = ((CheckersApp) this.getContext().getApplicationContext()).getP1Piece();
                 setImageDrawable(this.display);
             }
         } else { //belongs to player 2
             if(occupant.isKing()) {
-                this.display = getResources().getDrawable(R.drawable.green_king);
+                this.display = ((CheckersApp) this.getContext().getApplicationContext()).getP2King();
                 setImageDrawable(this.display);
             } else {
-                this.display = getResources().getDrawable(R.drawable.green_piece);
+                this.display = ((CheckersApp) this.getContext().getApplicationContext()).getP2Piece();
                 setImageDrawable(this.display);
             }
         }
@@ -323,7 +323,11 @@ public class Square extends ImageView {
             }
 
             if(pieceTaken) {
-                ((PlayFriendHome) this.getContext()).makeToast(1);
+                if(this.getContext() instanceof PlayComputerHome) {
+                    ((PlayComputerHome) this.getContext()).makeToast(1);
+                } else {
+                    ((PlayFriendHome) this.getContext()).makeToast(1);
+                }
             }
 
             return true;
