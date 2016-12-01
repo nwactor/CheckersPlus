@@ -9,6 +9,7 @@ import android.view.View;
 import com.example.nick.checkers.R;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by Nick on 11/10/2016.
@@ -108,6 +109,22 @@ public class Board {
 
     public void decrementP2() {
         this.p2Pieces--;
+    }
+
+    //returns all squares with computer pieces so that the computer can choose
+    //its move
+    public ArrayList<Square> getComputerPieces() {
+        ArrayList<Square> computerPieces = new ArrayList<>();
+        for(Square[] row : this.squares) {
+            for(Square square : row) {
+                if(square.hasOccupant()) {
+                    if(square.getOccupant().isP2()) {
+                        computerPieces.add(square);
+                    }
+                }
+            }
+        }
+        return computerPieces;
     }
 
 }

@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import com.example.nick.checkers.Board;
 import com.example.nick.checkers.Piece;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 /**
  * Created by Nick on 11/10/2016.
@@ -321,7 +321,7 @@ public class Square extends ImageView {
     }
 
     //method for getting all the available moves for the square's piece
-    private HashSet<Square> getAvailableMoves() {
+    public HashSet<Square> getAvailableMoves() {
 
         //this should only ever get called if this has an occupant,
         //so no need to check for one
@@ -360,8 +360,8 @@ public class Square extends ImageView {
 
     //@param side tells the recursive calls which side to go down, so they don't go down both
     //0 = both, 1 = left, 2 = right
-    private LinkedList<Square> getUpwardAvailable(boolean currentTeam, int side) {
-        LinkedList<Square> upwardAvailable = new LinkedList<Square>();
+    private ArrayList<Square> getUpwardAvailable(boolean currentTeam, int side) {
+        ArrayList<Square> upwardAvailable = new ArrayList<>();
 
         Square upLeft = this.getUpLeft();
         Square upRight = this.getUpRight();
@@ -373,7 +373,7 @@ public class Square extends ImageView {
                         //recursively check for a possible jump to the left
                         if (upLeft.getUpLeft() != null && !upLeft.getUpLeft().hasOccupant()) {
                             //call method on square two steps away
-                            LinkedList<Square> temp = upLeft.getUpLeft().getUpwardAvailable(currentTeam, 1);
+                            ArrayList<Square> temp = upLeft.getUpLeft().getUpwardAvailable(currentTeam, 1);
                             if (temp.size() > 0) {
                                 for (Square square : temp) {
                                     upwardAvailable.add(square);
@@ -406,7 +406,7 @@ public class Square extends ImageView {
                     if (upRight.getOccupant().getTeam() != currentTeam) {
                         //recursively check for a possible jump to the right
                         if (upRight.getUpRight() != null && !upRight.getUpRight().hasOccupant()) {
-                            LinkedList<Square> temp = upRight.getUpRight().getUpwardAvailable(currentTeam, 2);
+                            ArrayList<Square> temp = upRight.getUpRight().getUpwardAvailable(currentTeam, 2);
                             if (temp.size() > 0) {
                                 for (Square square : temp) {
                                     upwardAvailable.add(square);
@@ -440,8 +440,8 @@ public class Square extends ImageView {
 
     //@param side tells the recursive calls which side to go down, so they don't go down both
     //0 = both, 1 = left, 2 = right
-    private LinkedList<Square> getDownwardAvailable(boolean currentTeam, int side) {
-        LinkedList<Square> downwardAvailable = new LinkedList<Square>();
+    private ArrayList<Square> getDownwardAvailable(boolean currentTeam, int side) {
+        ArrayList<Square> downwardAvailable = new ArrayList<>();
 
         Square downLeft = this.getDownLeft();
         Square downRight = this.getDownRight();
@@ -452,7 +452,7 @@ public class Square extends ImageView {
                     if (downLeft.getOccupant().getTeam() != currentTeam) {
                         //recursively check for a possible jump to the left
                         if (downLeft.getDownLeft() != null && !downLeft.getDownLeft().hasOccupant()) {
-                            LinkedList<Square> temp = downLeft.getDownLeft().getDownwardAvailable(currentTeam, 1);
+                            ArrayList<Square> temp = downLeft.getDownLeft().getDownwardAvailable(currentTeam, 1);
                             if (temp.size() > 0) {
                                 for (Square square : temp) {
                                     downwardAvailable.add(square);
@@ -487,7 +487,7 @@ public class Square extends ImageView {
                     if (downRight.getOccupant().getTeam() != currentTeam) {
                         //recursively check for a possible jump to the right
                         if (downRight.getDownRight() != null && !downRight.getDownRight().hasOccupant()) {
-                            LinkedList<Square> temp = downRight.getDownRight().getDownwardAvailable(currentTeam, 2);
+                            ArrayList<Square> temp = downRight.getDownRight().getDownwardAvailable(currentTeam, 2);
                             if (temp.size() > 0) {
                                 for (Square square : temp) {
                                     downwardAvailable.add(square);
