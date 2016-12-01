@@ -8,22 +8,6 @@
 
 
     <Button
-        android:id="@+id/friendToMainButton"
-        android:text="@string/return_page"
-        android:onClick="returnToMain"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_red_light"
-        android:textSize="30sp"
-        android:textStyle="normal|bold|italic"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
-
-    <Button
         android:id="@+id/friendResignButton"
         android:text="Resign"
         android:onClick="onResignClick"
@@ -57,6 +41,22 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         />
 
+    <Button
+        android:id="@+id/friendToMainButton"
+        android:text="@string/return_page"
+        android:onClick="returnToMain"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_red_light"
+        android:textSize="30sp"
+        android:textStyle="normal|bold|italic"
+        style="@style/Widget.AppCompat.Button.Borderless"/>
+
     <fragment
         android:id="@+id/checkerBoard"
         android:name="com.example.nick.checkers.BoardFragment"
@@ -75,6 +75,7 @@
         android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="81dp"
         android:layout_above="@+id/friendNewGameButton"
         android:layout_centerHorizontal="true" />
 

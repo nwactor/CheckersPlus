@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,187 +7,66 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1"
+    android:orientation="vertical"
     android:background="@android:color/black">
 
-    <TextView
-        android:id="@+id/difficultyLabel"
-        android:text="Difficulty:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"/>
-
-    <RadioGroup
-        android:id="@+id/difficultySetting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_below="@+id/difficultyLabel">
-
-        <RadioButton
-            android:id="@+id/easyRadio"
-            android:text="Easy"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/hardRadio"
-            android:text="Hard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        </RadioGroup>
-
-    <TextView
-        android:id="@+id/colorTitle"
-        android:text="Colors:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/difficultySetting"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/p1ColorLabel"
-        android:text="Player One Color:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_below="@+id/colorTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="32dp" />
-
-    <RadioGroup
-        android:id="@+id/p1ColorGroup"
-        android:layout_below="@+id/p1ColorLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <RadioButton
-            android:id="@+id/p1Blue"
-            android:text="Blue"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p1Green"
-            android:text="Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p1Red"
-            android:text="Red"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p1Purple"
-            android:text="Purple"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p1Orange"
-            android:text="Orange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p1White"
-            android:text="White"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p1Tan"
-            android:text="Tan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/p2ColorLabel"
-        android:text="Player Two Color:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_alignBaseline="@+id/p1ColorLabel"
-        android:layout_alignBottom="@+id/p1ColorLabel"
-        android:layout_toRightOf="@+id/p1ColorLabel"
-        android:layout_toEndOf="@+id/p1ColorLabel"
-        android:layout_marginLeft="35dp"
-        android:layout_marginStart="32dp" />
-
-    <RadioGroup
-        android:id="@+id/p2ColorGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/p2ColorLabel"
-        android:layout_alignLeft="@+id/p2ColorLabel"
-        android:layout_alignStart="@+id/p2ColorLabel">
-
-        <RadioButton
-            android:id="@+id/p2Green"
-            android:text="Green"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p2Blue"
-            android:text="Blue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p2Red"
-            android:text="Red"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p2Purple"
-            android:text="Purple"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p2Orange"
-            android:text="Orange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p2White"
-            android:text="White"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RadioButton
-            android:id="@+id/p2Tan"
-            android:text="Tan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RadioGroup>
-
     <Button
-        android:id="@+id/optionsReturnButton"
-        android:text="@string/return_page"
-        android:onClick="returnToMain"
+        android:id="@+id/game_settings_button"
+        android:text="@string/go_game_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="151dp"
+        style="@android:style/Widget.Holo.Button"
+        android:elevation="24dp"
+        android:textStyle="normal|bold|italic"
+        android:fontFamily="sans-serif-condensed"
+        android:typeface="sans"
+        android:textSize="36sp"
+        android:lineSpacingExtra="12sp"
+        android:textColor="@android:color/white"
+        android:background="@android:color/black"
+        android:layout_weight="0.13"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/customization_button"
+        android:text="@string/go_customization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.19"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold|italic"
+        android:textSize="30sp"
+        android:textAllCaps="false"
+        />
+
+    <Button
+        android:id="@+id/sound_button"
+        android:text="@string/go_sound_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.22"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:textColor="@android:color/white"
         android:background="@android:color/black"
         android:textSize="30sp"
         android:textStyle="normal|bold|italic"
-        style="@style/Widget.AppCompat.Button.Borderless" />
+        />
 
-</RelativeLayout>
+    <Button
+        android:text="@string/return_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button6"
+        android:layout_weight="0.22"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textColor="@android:color/white"
+        android:background="@android:color/black"
+        android:textSize="30sp"
+        android:textStyle="normal|bold|italic"
+        android:onClick="returnToMain"/>
+
+</LinearLayout>

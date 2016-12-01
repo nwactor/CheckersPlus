@@ -11,4 +11,20 @@
     <string name="player_victory">You Win!!!</string>
     <string name="p1_victory">Player 1 Wins!!!</string>
     <string name="p2_victory">Player 2 Wins!!!</string>
+    <string name="taken1">What a glorious day for battle!!</string>
+    <string-array name="flavor_toasts">
+        <item>That Checker only had 3 days until retirement.</item>
+        <item>There is never victory without sacrifice</item>
+        <item>Another checker soldier has fallen</item>
+        <item>That checker is gone but not forgotten</item>
+        <item>That checker pain the ultimate price.</item>
+        <item>That checker had a family.</item>
+        <item>That checker will never see his dog again</item>
+        <item>Another checker wife becomes a checker widow</item>
+        <item>That checker would have had a birthday tomorrow</item>
+        <item>The battle is won, but at what cost?</item>
+        <item>The battle is won, but at what cost?</item>
+        <item>The battle is won, but at what cost?</item>
+
+    </string-array>
 </resources>

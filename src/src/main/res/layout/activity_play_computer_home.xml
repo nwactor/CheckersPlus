@@ -1,61 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_green_light"
     tools:context="com.example.nick.checkers.PlayComputerHome">
 
-
     <Button
         android:id="@+id/computerToMainButton"
         android:text="@string/return_page"
-        android:onClick="returnToMain"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_width="283dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textColor="@android:color/white"
+        android:background="@android:color/black"
+        android:textSize="30sp"
+        android:textStyle="normal|bold|italic"
+        android:onClick="returnToMain"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_red_light"
-        android:textSize="30sp"
-        android:textStyle="normal|bold|italic"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
-
-    <Button
-        android:id="@+id/computerResignButton"
-        android:text="Resign"
-        android:onClick="onResignClick"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/computerToMainButton"
-        android:layout_gravity="bottom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_orange_light"
-        android:textSize="30sp"
-        android:textStyle="normal|bold|italic"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        />
-
-    <Button
-        android:id="@+id/computerNewGameButton"
-        android:text="New Game"
-        android:onClick="onNewGameClick"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/computerResignButton"
-        android:layout_gravity="bottom"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@android:color/white"
-        android:background="@android:color/holo_purple"
-        android:textSize="25sp"
-        android:textStyle="normal|bold|italic"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        />
+        android:layout_alignParentStart="true" />
 
     <fragment
         android:id="@+id/checkerBoard"
@@ -68,15 +33,15 @@
         tools:layout="@layout/board_fragment" />
 
     <TextView
-        android:id="@+id/victoryBanner"
-        android:visibility="invisible"
-        android:textSize="40sp"
-        android:textStyle="normal|bold|italic"
-        android:textColor="@android:color/holo_red_dark"
+        android:id="@+id/currentTurnComputer"
+        android:text="Player 1's Turn"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/computerNewGameButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="190dp"
+        android:layout_above="@+id/friendToMainButton"
+        android:layout_centerHorizontal="true" />
 
-</RelativeLayout>
+</LinearLayout>

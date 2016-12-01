@@ -9,21 +9,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".MainMenu">
-
-        </activity>
-        <activity android:name=".OptionsInterface" />
-        <activity android:name=".PlayFriendHome" />
-        <activity android:name=".PlayComputerHome"></activity>
-        <activity
-            android:name=".SplashScreen"
-            android:screenOrientation="portrait"
-            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".OptionsInterface" />
+        <activity android:name=".PlayFriendHome"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PlayComputerHome"></activity>`
+        <activity
+            android:name=".SplashScreen"
+            android:screenOrientation="portrait"
+            android:noHistory="true" >
+        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

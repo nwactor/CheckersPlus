@@ -1,6 +1,5 @@
 package com.example.nick.checkers;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 /**
  * Created by Nick on 11/13/2016.
@@ -33,14 +31,9 @@ public class BoardFragment extends Fragment implements View.OnTouchListener {
         Point size = new Point();
         d.getSize(size);
         int screenWidth = size.x;
-        int screenHeight = size.y;
 
         //subtract 10 for some padding
         int squareSize = screenWidth / 8 - 10;
-
-        //set the text that says whose turn it is to be just under the board
-        //TextView text = ((TextView) (this.getActivity()).findViewById(R.id.currentTurnFriend));
-        //text.setPadding(0, 0, 0, screenHeight - (squareSize * 8) - 10);
 
         int[] values = boardView.makeBoard(8, 8, squareSize);
     }
